@@ -21,6 +21,7 @@
 .nav-bar .nav-bar__nav-item {
 	right : 10px;
 	position: absolute;
+	top : 1rem;
 }
 .nav-bar .nav-bar__nav-item a {
 	text-decoration: none;
