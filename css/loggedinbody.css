@@ -1,0 +1,36 @@
+.loggedinbody {
+	font-family: 'Cairo', sans-serif;
+	height: 98vh;
+	display: flex;
+
+}
+
+.name {
+	display: inline;
+}
+.loggedinbody__left-side {
+	border-right: 4px solid red;
+	margin-top: 5px;
+	width : 20rem;
+}
+
+.loggedinbody__left-side .loggedinbody__left-side__profile-image {
+	margin-top : 10px;
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	border: 5px solid red;
+	display: block;
+}
+.loggedinbody .loggedinbody__right-side {
+	width: 100%;
+	text-align: center;
+}
+
+.loggedinbody__right-side .loggedinbody__right-side__maintanance-image {
+	height: 300px;
+
+}
+.loggedinbody h2 {
+	margin-top: 50px;
+}
