@@ -17,7 +17,7 @@
 
 		<?php $image = $_SESSION["image_url"]; ?>
 		<div name = "header" class = "nav-bar">
-			<img src = "<?=$image?>" alt ="somthing went wrong" class = "nav-bar__nav-image"/>
+			<a href = "/air_reservation/"><img src = "<?=$image?>" alt ="somthing went wrong" class = "nav-bar__nav-image"/></a>
 			<div class = "nav-bar__nav-item">
 				<div class = "nav-bar__nav-item__child"><?=$_SESSION["name"]?></div>
 				<div class = "nav-bar__nav-item__child"><a href = "logout">Logout</a></div>

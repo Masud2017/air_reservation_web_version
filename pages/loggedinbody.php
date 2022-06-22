@@ -19,14 +19,17 @@
 			<h4>Postal code : <?=$_SESSION["variableObj"]["postal_code"]?> </h4>
 			<h4>City : <?=$_SESSION["variableObj"]["city"]?> </h4>
 			<h4>District : <?=$_SESSION["variableObj"]["district"]?> </h4>
+			<a href = "edituser">Edit user info</a>
 		<?php else: ?>
 			<span>No info available</span>
+			<a href = "addaddress">Add Address Info</a>
 		<?php endif;?>
 
 	</div>
 	<div class ="loggedinbody__right-side">
 		<img src = "image/maintanance.png" class = "loggedinbody__right-side__maintanance-image">
 		<h1>This portion is under development</h1>
+
 	</div>
 
 </div>

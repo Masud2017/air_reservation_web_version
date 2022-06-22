@@ -1,0 +1,38 @@
+.add-user-info-container {
+		display: flex;
+	height: 100vh;
+	align-items: center;
+	justify-content: center;
+
+}
+* {
+	margin : 0px;
+}
+
+.add-user-info-container form {
+	width: 30rem;
+	background-color :white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+
+.add-user-info-container__input {
+	/*display: block;*/
+	width: 20rem;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+
+.add-user-info-container__input[type= "submit"]  {
+	background-color :red;
+	color :white;
+	border: none;
+	padding : 10px;
+	width: 21.5rem;
+	margin-top : 10px;
+}

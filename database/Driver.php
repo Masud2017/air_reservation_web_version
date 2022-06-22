@@ -130,8 +130,9 @@ class Driver {
 		return $result["image_url"];
 	}
 
-	public function searchUserAddressByUserName($user_name) {
-		$sql = "SELECT * FROM address where user_id= ${user_name}";
+	public function searchUserAddressByUserId($user_id) {
+		echo "From driver user_id ".$user_id;
+		$sql = "SELECT * FROM address where user_id= ${user_id}";
 		$result = mysqli_query($this->conn,$sql);
 
 		if ($result) {
@@ -140,7 +141,7 @@ class Driver {
 		} else {
 			echo "User addrsss is not found";
 		}
-		
+
 	}
 
 	public function insertOneToOne($owningTableName,$owningTableKey,$ownedTable) {

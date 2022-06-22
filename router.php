@@ -77,8 +77,16 @@ switch ($requestDispatchList[0]) {
 		break;
 	case '/air_reservation/signup':
 		require __DIR__ . '/pages/signup.php';
-
 		break;
+
+	case '/air_reservation/addaddress':
+		require __DIR__ . '/pages/add-user-address.php';
+		break;
+
+	case '/air_reservation/edituser':
+		require __DIR__ . '/pages/edituser.php';
+		break;
+
 	case '/air_reservation/authenticate':
 		echo $_SERVER["QUERY_STRING"];
 		forwardToController($controllerName = "AuthController",$method = "authenticate");
@@ -98,6 +106,15 @@ switch ($requestDispatchList[0]) {
 		forwardToController($controllerName = "UserController",$method = "getUserInfo");
 		break;
 
+	case '/air_reservation/adduseraddress':
+		// echo $_SERVER["QUERY_STRING"];
+		forwardToController($controllerName = "UserController",$method = "addUserInfo");
+		break;
+		
+	case '/air_reservation/edituserinfo':
+		// echo $_SERVER["QUERY_STRING"];
+		forwardToController($controllerName = "UserController",$method = "editUserInfo");
+		break;
 
 	default :
 		http_response_code(404);
