@@ -16,8 +16,4 @@ $driver->connect();
 // $driver->dropTable("address");
 // $driver->dropTable("images");
 
-
-// // $driver->testInsert();
-// // $driver->searchUserByUserName("msmasud578");
-
 $driver->close();

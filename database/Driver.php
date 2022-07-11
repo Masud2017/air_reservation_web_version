@@ -56,35 +56,35 @@ class Driver {
 	    REFERENCES users(id) ON DELETE CASCADE";
 
 	if (mysqli_query($this->conn, $queryUser)) {
-	  echo "Table MyGuests created successfully";
+	  echo "Table user created successfully";
 	} else {
-	  echo "Error creating table: " . mysqli_error($this->conn);
+	  echo "Error creating user table: " . mysqli_error($this->conn);
 	}
 
 
 	if (mysqli_query($this->conn, $queryAddress)) {
-	  echo "Table MyGuests created successfully";
+	  echo "Table address is created successfully";
 	} else {
-	  echo "Error creating table: " . mysqli_error($this->conn);
+	  echo "Error creating address table: " . mysqli_error($this->conn);
 	}
 
 
 	if (mysqli_query($this->conn, $relationOnetoOne)) {
-	  echo "Table MyGuests created successfully";
+	  echo "Table relation between user and address is successfully";
 	} else {
-	  echo "Error creating table: " . mysqli_error($this->conn);
+	  echo "Error relationship between user and address table: " . mysqli_error($this->conn);
 	}
 
 	if (mysqli_query($this->conn, $queryImage)) {
-	  echo "Table MyGuests created successfully";
+	  echo "Image table is created successfully";
 	} else {
-	  echo "Error creating table: " . mysqli_error($this->conn);
+	  echo "Error creating Image table: " . mysqli_error($this->conn);
 	}
 
 	if (mysqli_query($this->conn, $relationOnetoOneImage)) {
-	  echo "Table MyGuests created successfully";
+	  echo "Relation between user and image is created successfully";
 	} else {
-	  echo "Error creating table: " . mysqli_error($this->conn);
+	  echo "Error in relation between user and image table: " . mysqli_error($this->conn);
 	}
 
 
@@ -94,9 +94,9 @@ class Driver {
 	public function insertData($query) {
 		
 		if (mysqli_query($this->conn, $query)) {
-			echo "Data inserted successfully";
+			echo "Query executed successfully";
 		} else {
-			echo "Data insertion error: " . mysqli_error($this->conn);
+			echo "Query execution error: " . mysqli_error($this->conn);
 		}
 
 	}
@@ -144,29 +144,6 @@ class Driver {
 
 	}
 
-	public function insertOneToOne($owningTableName,$owningTableKey,$ownedTable) {
-		
-	}
-
-	public function testInsert() {
-		$query = "INSERT INTO users(fname,lname,email,password)
-		VALUES('masud','karim','msmasud578','jpmasudxp')
-		";
-		if (mysqli_query($this->conn, $query)) {
-			echo "Table MyGuests created successfully";
-		} else {
-			echo "Error creating table: " . mysqli_error($this->conn);
-		}
-
-		$query2 = "INSERT INTO address(address,phone,city,disctrict,postal_code,user_id)
-		VALUES('afdsafasdf','01721600967','dhaka','city','1216',2)
-		";
-		if (mysqli_query($this->conn, $query2)) {
-			echo "Data inserted successfully";
-		} else {
-			echo "Data insertion error: " . mysqli_error($this->conn);
-		}
-	}
 
 	public function dropTable($tableName) {
 		mysqli_query($this->conn,"drop table ".$tableName);
