@@ -123,7 +123,7 @@ class Driver {
 		/**
 		 * this portion and user table portion need to be work on 
 		 */
-		$oneToManyUserHistory = "ALTER TABLE history ADD CONSTRAINT FK_user ";
+		$oneToManyUserHistory = "ALTER TABLE history ADD CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ";
 	}
 
 	public function insertData($query) {
