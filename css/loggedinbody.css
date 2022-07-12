@@ -24,7 +24,7 @@
 }
 .loggedinbody .loggedinbody__right-side {
 	width: 100%;
-	text-align: center;
+	/* text-align: center; */
 }
 
 .loggedinbody__right-side .loggedinbody__right-side__maintanance-image {
@@ -33,4 +33,59 @@
 }
 .loggedinbody h2 {
 	margin-top: 50px;
+}
+
+.loggedinbody__right-side__card__container {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.loggedinbody__right-side__card__container__card {
+	width: 100px;
+	border-radius: 4px;
+	height : 100px;
+	transition: transform .2s;
+	background-color : cyan;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor : pointer;
+	text-decoration: none;
+	padding : 5px;
+	text-align: center;
+}
+.loggedinbody__right-side__card__container__card:hover {
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	transform: scale(140%);
+}
+
+
+.loggedinbody__right-side__history-card-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow-y: auto;
+	height: 70%;
+	padding: 5px;
+}
+.loggedinbody__right-side__history-card-container__card {
+	width : 80%;
+	height: 2.7rem;
+	background-color: aqua;
+	border-radius: 10px;
+	padding : 10px;
+	display: flex;
+	align-items: center;
+	margin-bottom : 5px;
+	transition: transform .2s;
+	justify-content: space-between;
+}
+
+.loggedinbody__right-side__history-card-container__card:hover {
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	transform: scale(110%);
 }

@@ -27,8 +27,27 @@
 
 	</div>
 	<div class ="loggedinbody__right-side">
-		<img src = "image/maintanance.png" class = "loggedinbody__right-side__maintanance-image">
-		<h1>This portion is under development</h1>
+		<!-- <img src = "image/maintanance.png" class = "loggedinbody__right-side__maintanance-image"> -->
+		<!-- <h1>This portion is under development</h1> -->
+		<div class = "loggedinbody__right-side__card__container">
+			<div name = "card" class = "loggedinbody__right-side__card__container__card">Navigate tickets</div>
+			<!-- <div name = "card" class = "loggedinbody__right-side__card__container__card">See schedule</div> -->
+			<div name = "card" class = "loggedinbody__right-side__card__container__card">My saved tickets</div>
+			<div name = "card" class = "loggedinbody__right-side__card__container__card">My wallet</div>
+		</div>
+
+		<br/><u><h1>Transaction history</h1></u><br/>
+
+		<div class = "loggedinbody__right-side__history-card-container">
+			<div class = "loggedinbody__right-side__history-card-container__card">
+				<div>History string</div>
+				<div>Date: <?php echo date("d:m:y-h:i:s") ?></div>
+				<div>BDT 5</div>
+				<div>Done/cancelled</div>
+				<div style = "background-color : white;border-radius: 50%; width : 30px; height : 30px;display : flex;justify-content:center;align-items:center;cursor:pointer">X</div>
+
+			</div>
+		</div>
 
 	</div>
 

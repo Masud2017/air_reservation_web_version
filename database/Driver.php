@@ -22,83 +22,116 @@ class Driver {
 	}
 
 	public function init() {
-	$queryUser = "CREATE TABLE if not exists users(
-		id int AUTO_INCREMENT unique,
-		fname varchar(10),
-		lname varchar(20),
-		email varchar(30),
-		password varchar(100)
-	)";
-	$queryAddress = "CREATE TABLE if not exists address(
-		id int AUTO_INCREMENT unique,
-		address varchar(120),
-		phone varchar(12),
-		city varchar(12),
-		disctrict varchar(20),
-		postal_code varchar(10),
-		user_id int unique
-	)";
+		$queryUser = "CREATE TABLE if not exists users(
+			id int AUTO_INCREMENT unique ,
+			fname varchar(10),
+			lname varchar(20),
+			email varchar(30),
+			password varchar(100)
+			CONSTRAINT PK_users PRIMARY KEY CLUSTERED (id)
+			
+		)";
+		$queryAddress = "CREATE TABLE if not exists address(
+			id int AUTO_INCREMENT unique,
+			address varchar(120),
+			phone varchar(12),
+			city varchar(12),
+			disctrict varchar(20),
+			postal_code varchar(10),
+			user_id int unique
+		)";
 
-	$queryImage = "CREATE TABLE if not exists images(
-		id int AUTO_INCREMENT unique,
-		image_url varchar(400),
-		user_id int unique
-	)";
+		$queryImage = "CREATE TABLE if not exists images(
+			id int AUTO_INCREMENT unique,
+			image_url varchar(400),
+			user_id int unique
+		)";
 
 
 
-	$relationOnetoOne = "ALTER TABLE address
-		ADD CONSTRAINT FK_User_Address FOREIGN KEY(user_id) 
-	    REFERENCES users(id) ON DELETE CASCADE";
+		$relationOnetoOne = "ALTER TABLE address
+			ADD CONSTRAINT FK_User_Address FOREIGN KEY(user_id) 
+			REFERENCES users(id) ON DELETE CASCADE";
 
-	$relationOnetoOneImage = "ALTER TABLE images
-		ADD CONSTRAINT FK_User_Image FOREIGN KEY(user_id) 
-	    REFERENCES users(id) ON DELETE CASCADE";
+		$relationOnetoOneImage = "ALTER TABLE images
+			ADD CONSTRAINT FK_User_Image FOREIGN KEY(user_id) 
+			REFERENCES users(id) ON DELETE CASCADE";
 
-	if (mysqli_query($this->conn, $queryUser)) {
-	  echo "Table user created successfully";
-	} else {
-	  echo "Error creating user table: " . mysqli_error($this->conn);
+		if (mysqli_query($this->conn, $queryUser)) {
+		echo "Table user created successfully";
+		} else {
+		echo "Error creating user table: " . mysqli_error($this->conn);
+		}
+
+
+		if (mysqli_query($this->conn, $queryAddress)) {
+		echo "Table address is created successfully";
+		} else {
+		echo "Error creating address table: " . mysqli_error($this->conn);
+		}
+
+
+		if (mysqli_query($this->conn, $relationOnetoOne)) {
+		echo "Table relation between user and address is successfully";
+		} else {
+		echo "Error relationship between user and address table: " . mysqli_error($this->conn);
+		}
+
+		if (mysqli_query($this->conn, $queryImage)) {
+		echo "Image table is created successfully";
+		} else {
+		echo "Error creating Image table: " . mysqli_error($this->conn);
+		}
+
+		if (mysqli_query($this->conn, $relationOnetoOneImage)) {
+		echo "Relation between user and image is created successfully";
+		} else {
+		echo "Error in relation between user and image table: " . mysqli_error($this->conn);
+		}
+
+
+		$roleTable = "CREATE TABLE IF NOT EXISTS role (
+			id int AUTO_INCREMENT unique PRIMARY KEY,
+			role varchar(24)
+		)";
+
+		$roleUserManyToManyTable = "CREATE TABLE IF NOT EXISTS user_role(
+			user_id INT,
+			role_id INT,
+			CONSTRAINT user_role_pk PRIMARY KEY (user_id, role_id),
+			CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+			CONSTRAINT FK_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE
+		)";
+
+		if (mysqli_query($this->conn,$roleTable)) {
+			echo "Creating role table successfully";
+		} else {
+			echo "Create role table is failed";
+		}
+
+		if (mysqli_query($this->conn,$roleUserManyToManyTable)) {
+			echo "Creating user_role table successfully<br> ".mysqli_error($this->conn);
+		} else {
+			echo "<br>Creating user_role table failed ".mysqli_error($this->conn);
+		}
+
+		$historyTable = "CREATE TABLE IF NOT EXISTS history(
+			id INT unique,
+			user_id INT NOT NULL,
+			CONSTRAINT PK_history PRIMARY KEY CLUSTERED (id)
+		)";
+		/**
+		 * this portion and user table portion need to be work on 
+		 */
+		$oneToManyUserHistory = "ALTER TABLE history ADD CONSTRAINT FK_user ";
 	}
-
-
-	if (mysqli_query($this->conn, $queryAddress)) {
-	  echo "Table address is created successfully";
-	} else {
-	  echo "Error creating address table: " . mysqli_error($this->conn);
-	}
-
-
-	if (mysqli_query($this->conn, $relationOnetoOne)) {
-	  echo "Table relation between user and address is successfully";
-	} else {
-	  echo "Error relationship between user and address table: " . mysqli_error($this->conn);
-	}
-
-	if (mysqli_query($this->conn, $queryImage)) {
-	  echo "Image table is created successfully";
-	} else {
-	  echo "Error creating Image table: " . mysqli_error($this->conn);
-	}
-
-	if (mysqli_query($this->conn, $relationOnetoOneImage)) {
-	  echo "Relation between user and image is created successfully";
-	} else {
-	  echo "Error in relation between user and image table: " . mysqli_error($this->conn);
-	}
-
-
-
-}
 
 	public function insertData($query) {
-		
 		if (mysqli_query($this->conn, $query)) {
 			echo "Query executed successfully";
 		} else {
 			echo "Query execution error: " . mysqli_error($this->conn);
 		}
-
 	}
 
 	public function searchUserByUserName($userName) {
