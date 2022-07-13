@@ -32,7 +32,7 @@
 		<div class = "loggedinbody__right-side__card__container">
 			<div name = "card" class = "loggedinbody__right-side__card__container__card">Navigate tickets</div>
 			<!-- <div name = "card" class = "loggedinbody__right-side__card__container__card">See schedule</div> -->
-			<div name = "card" class = "loggedinbody__right-side__card__container__card">My saved tickets</div>
+			<div name = "card" class = "loggedinbody__right-side__card__container__card">My ordered tickets</div>
 			<div name = "card" class = "loggedinbody__right-side__card__container__card">My wallet</div>
 		</div>
 

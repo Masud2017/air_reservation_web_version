@@ -156,7 +156,46 @@ class Driver {
 			echo "<br>Creating one to one relationship with user and wallet is failed";
 
 		}
+
+		/**
+		 * This table is an independant table and has no dpendencies(relationships) on any table
+		 * The write,edit and delete access is only preserved to Admin users
+		 * Regular users can only be able to read and copy the data to their own profile
+		 */
+		$ticketsTable = "CREATE TABLE IF NOT EXISTS tickets (
+			id INT AUTO_INCREMENT PRIMARY KEY
+
+		)";
+
+		if (mysqli_query($this->conn, $ticketsTable)) {
+			echo "<br>Creating tickets table is successfull";
+		} else {
+			echo "<br>Creating tickets table is failed ".mysqli_error($this->conn);
+		}
+
+		$orderedTicketsTable = "CREATE TABLE IF NOT EXISTS ordered_tickets(
+			id INT AUTO_INCREMENT,
+			CONSTRAINT PK_ordered_tickets PRIMARY KEY CLUSTERED (id),
+			user_id INT
+		)";
+
+		$orderedTicketsUserOneToMany = "ALTER TABLE ordered_tickets ADD CONSTRAINT FK_User_Ordered_Tickets FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ";
+
+		if (mysqli_query($this->conn,$orderedTicketsTable)) {
+			echo "<br>Creating ordered tickets table is successfull ";
+		} else {
+			echo "<br>Creating ordered tickets table is failed ".mysqli_error($this->conn);
+		}
+
+		
+		if (mysqli_query($this->conn,$orderedTicketsUserOneToMany)) {
+			echo "<br>Creating one to many relationship betwee ordered_tickets and users table is successfull";
+		} else {
+			echo "<br>Creating one to many relationship betwee ordered_tickets and users table is failed ".mysqli_error($this->conn);
+
+		}
 	}
+
 
 	public function seedForRole() {
 		// this method will populate the role table with intial data

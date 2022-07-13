@@ -11,7 +11,7 @@ use Database\Driver;
 
 $driver = new Driver("root","","localhost","airsystem");
 $driver->connect();
-$driver->init();
+// $driver->init();
 // $driver->dropTable("users");
 // $driver->dropTable("address");
 // $driver->dropTable("images");

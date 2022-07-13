@@ -120,9 +120,7 @@ class UserController {
 		}
 
 		header("Location: /air_reservation/");
-		exit();
-
-		
+		exit();	
 	}
 }
 
