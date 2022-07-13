@@ -9,9 +9,16 @@
 	display: inline;
 }
 .loggedinbody__left-side {
-	border-right: 4px solid red;
-	margin-top: 5px;
+	/* margin-top: 5px; */
 	width : 20rem;
+	background-color : cyan;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.loggedinbody__left-side h3,h4,h2 {
+	color :white;
 }
 
 .loggedinbody__left-side .loggedinbody__left-side__profile-image {
@@ -19,12 +26,14 @@
 	height: 200px;
 	width: 200px;
 	border-radius: 50%;
-	border: 5px solid red;
+	border: 5px solid white;
 	display: block;
+	margin-left : 0;
 }
 .loggedinbody .loggedinbody__right-side {
 	width: 100%;
 	/* text-align: center; */
+	padding : 0px 10px;
 }
 
 .loggedinbody__right-side .loggedinbody__right-side__maintanance-image {
@@ -88,4 +97,7 @@
 .loggedinbody__right-side__history-card-container__card:hover {
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	transform: scale(110%);
+}
+a {
+	text-decoration: none;
 }

@@ -113,13 +113,13 @@ class UserController {
 				
 			}
 
-			header("Location: /air_reservation/");
+			header("Location: /air_reservation/getticketlist");
 			exit();
 
 
 		}
 
-		header("Location: /air_reservation/");
+		header("Location: /air_reservation/getticketlist");
 		exit();	
 	}
 }

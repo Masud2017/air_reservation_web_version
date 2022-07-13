@@ -1,11 +1,14 @@
 <?php
 include ("controller/AuthController.php");
 include ("controller/UserController.php");
+include ("controller/TicketController.php");
+
 
 include ("database/Driver.php");
 
 use Controller\AuthController;
 use Controller\UserController;
+use Controller\TicketController;
 use Database\Driver;
 
 
@@ -55,6 +58,20 @@ function forwardToController($controllerName,$method) {
 						break;
 				}
 				break;
+
+			case "TicketController":
+				$ticketController = new TicketController($dbDriver);
+				switch ($method) {
+					case 'addNewTicket':
+						$ticketController->addNewTicket();
+						break;
+					case 'getAvailAbleTicketInfo':
+						$ticketController->getAvailAbleTicketInfo();
+					default:
+						# code...
+						break;
+				}
+				break;
 		
 		default:
 			# code...
@@ -86,6 +103,19 @@ switch ($requestDispatchList[0]) {
 	case '/air_reservation/edituser':
 		require __DIR__ . '/pages/edituser.php';
 		break;
+	case '/air_reservation/mywallet':
+		require __DIR__ . '/pages/walletpage.php';
+		break;
+	case '/air_reservation/navigateticket':
+		require __DIR__ . '/pages/navigate-tickets.php';
+		break;
+	case '/air_reservation/orderedticket':
+		require __DIR__ . '/pages/ordered-ticket.php';
+		break;
+	case '/air_reservation/addticket':
+		require __DIR__ . '/pages/add-new-ticket.php';
+		break;
+
 
 	case '/air_reservation/authenticate':
 		echo $_SERVER["QUERY_STRING"];
@@ -114,6 +144,16 @@ switch ($requestDispatchList[0]) {
 	case '/air_reservation/edituserinfo':
 		// echo $_SERVER["QUERY_STRING"];
 		forwardToController($controllerName = "UserController",$method = "editUserInfo");
+		break;
+
+	case '/air_reservation/addnewticket':
+		// echo $_SERVER["QUERY_STRING"];
+		forwardToController($controllerName = "TicketController",$method = "addNewTicket");
+		break;
+
+	case '/air_reservation/getticketlist':
+		// echo $_SERVER["QUERY_STRING"];
+		forwardToController($controllerName = "TicketController",$method = "getAvailAbleTicketInfo");
 		break;
 
 	default :

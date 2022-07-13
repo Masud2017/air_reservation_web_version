@@ -21,6 +21,73 @@ class Driver {
 
 	}
 
+	public function seedForRole() {
+		// this method will populate the role table with intial data
+		$seed = "INSERT INTO role (role) VALUES ('user')";
+		$seed2 = "INSERT INTO role (role) VALUES ('admin')";
+
+		if (mysqli_query($this->conn, $seed)) {
+			echo "<br>Seeding first seed to the role table";
+		} else {
+			echo "<br>Seeding first seed to the role table failed";
+		}
+
+
+		if (mysqli_query($this->conn, $seed2)) {
+			echo "<br>Seeding second seed to the role table";
+		} else {
+			echo "<br>Seeding second seed to the role table failed";
+		}
+		
+	}
+
+
+	public function getRoleIdByRoleName($role_name) {
+		$searchQuery = "SELECT id from role where role='${role_name}'";
+		$result = mysqli_query($this->conn, $searchQuery);
+		if (result) {
+			echo "<br?>Role Searching query performed successfully";
+		} else {
+			echo "<br?>Role Searching query performing failure";
+		}
+		if (mysqli_num_rows($result) > 0) {
+			$result = mysqli_fetch_assoc($result);
+		}
+		return $result["id"];
+	}
+
+	protected function createRootUser() {
+		$this->seedForRole();
+
+		$password = password_hash("root", PASSWORD_BCRYPT,['cost' => 10]);
+
+		$addRootUser = "INSERT INTO users (fname,lname,email,password) VALUES ('Super','User','root@gmail.com','${password}')";
+		if (mysqli_query($this->conn,$addRootUser)) {
+			echo "Root user creation successfull";
+		} else {
+			echo "Root user creation is failed";
+		}
+
+		$result = mysqli_query($this->conn,"SELECT * from users where email='root@gmail.com'");
+		if ($result) {
+			echo "<br>Root user is exists";
+			$result = mysqli_fetch_assoc($result);
+
+		} else {
+			echo "<br>Root user is not exists";
+		}
+		$user_id = $result["id"];
+		$role_id = $this->getRoleIdByRoleName("admin");
+		# add the role to the root user
+		$adminRole = "INSERT INTO user_role(user_id,role_id) VALUES('${user_id}','${role_id}')";
+
+		if (mysqli_query($this->conn, $adminRole)) {
+			echo "<br>Attaching role with admin user is successfull";
+		} else {
+			echo "<br>Attaching role with admin user is failed";
+		}
+	}
+
 	public function init() {
 		$queryUser = "CREATE TABLE if not exists users(
 			id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
@@ -47,8 +114,6 @@ class Driver {
 			image_url varchar(400),
 			user_id int unique
 		)";
-
-
 
 		$relationOnetoOne = "ALTER TABLE address
 			ADD CONSTRAINT FK_User_Address FOREIGN KEY(user_id) 
@@ -163,8 +228,10 @@ class Driver {
 		 * Regular users can only be able to read and copy the data to their own profile
 		 */
 		$ticketsTable = "CREATE TABLE IF NOT EXISTS tickets (
-			id INT AUTO_INCREMENT PRIMARY KEY
-
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			destination varchar(244),
+			price INT,
+			created_at TIMESTAMP
 		)";
 
 		if (mysqli_query($this->conn, $ticketsTable)) {
@@ -194,18 +261,18 @@ class Driver {
 			echo "<br>Creating one to many relationship betwee ordered_tickets and users table is failed ".mysqli_error($this->conn);
 
 		}
+
+		// username : root and password : root
+		$this->createRootUser();
 	}
 
 
-	public function seedForRole() {
-		// this method will populate the role table with intial data
-	}
-
+	
 	public function insertData($query) {
 		if (mysqli_query($this->conn, $query)) {
-			echo "Query executed successfully";
+			echo "<br>Query executed successfully";
 		} else {
-			echo "Query execution error: " . mysqli_error($this->conn);
+			echo "<br>Query execution error: " . mysqli_error($this->conn);
 		}
 	}
 
@@ -253,9 +320,67 @@ class Driver {
 	}
 
 
+	public function getRoleByUserId($user_id) {
+		$getRoleId = "SELECT role_id from user_role where user_id = '${user_id}'";
+		$result = mysqli_query($this->conn,$getRoleId);
+		if ($result) {
+			echo "<br>Role id is found for the corrosponding user id ";
+			$result = mysqli_fetch_assoc($result);
+		} else {
+			echo "<br>Role id is not found for the corrosponding user id ";
+
+		}
+
+		$role_id = $result["role_id"];
+		$role = "SELECT role from role where id = '${role_id}'";
+		$result2 = mysqli_query($this->conn,$role);
+
+		if ($result2) {
+			echo "<br>Role is found for the provided user_id";
+			$result2 = mysqli_fetch_assoc($result2);
+		} else {
+			echo "<br>Role is not found for the provided user_id";
+		}
+
+		return $result2["role"];
+	}
+
+	public function getUserInfo($user_id) {
+		$sql = "SELECT * from users where id='${user_id}'";
+		$user = mysqli_query($this->conn,$sql);
+
+		if ($user) {
+			echo "<br>Currently logged in user is found";
+			$user = mysqli_fetch_assoc($user);
+		} else {
+			echo "<br>Currently logged in user is not found ".mysqli_error($this->conn);
+		}
+		return $user;
+	}
+
+	public function getTicketList() {
+		$sql = "SELECT destination, price from tickets";
+		$result = mysqli_query($this->conn,$sql);
+		$arr = array();
+
+		if ($result) {
+			echo "<br>ticket list is found";
+			if (mysqli_num_rows($result) > 0) {
+				while ($row = mysqli_fetch_assoc($result)) {
+					array_push($arr,$row);
+				}
+			}
+		} else {
+			echo "<br>ticket list is not found";
+		}
+
+		return $arr;
+	}
+
 	public function dropTable($tableName) {
 		mysqli_query($this->conn,"drop table ".$tableName);
 	}
+
 
 	public function close() {
 		mysqli_close($this->conn);
