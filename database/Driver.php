@@ -137,6 +137,29 @@ class Driver {
 		} else {
 			echo "<br> ONe to many betwen user and history table is failed ".mysqli_error($this->conn);
 		}
+
+		$walletTable = "CREATE TABLE IF NOT EXISTS wallet (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			balance INT,
+			user_id INT NOT NULL UNIQUE
+		) ";
+		$walletOneToOneWithUser = "ALTER TABLE wallet ADD CONSTRAINT FK_user_wallet FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE";
+		if (mysqli_query($this->conn, $walletTable)) {
+			echo "<br>Creating wallet table is successfull";
+		} else {
+			echo "<br>Creating wallet table is failed";
+		}
+
+		if (mysqli_query($this->conn, $walletOneToOneWithUser)) {
+			echo "<br>Creating one to one relationship with user and wallet is successfull";
+		} else {
+			echo "<br>Creating one to one relationship with user and wallet is failed";
+
+		}
+	}
+
+	public function seedForRole() {
+		// this method will populate the role table with intial data
 	}
 
 	public function insertData($query) {
