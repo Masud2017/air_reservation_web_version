@@ -23,12 +23,13 @@ class Driver {
 
 	public function init() {
 		$queryUser = "CREATE TABLE if not exists users(
-			id int AUTO_INCREMENT unique ,
+			id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
 			fname varchar(10),
 			lname varchar(20),
 			email varchar(30),
 			password varchar(100)
-			CONSTRAINT PK_users PRIMARY KEY CLUSTERED (id)
+			-- CONSTRAINT PK_user PRIMARY KEY CLUSTERED (id)
+
 			
 		)";
 		$queryAddress = "CREATE TABLE if not exists address(
@@ -116,14 +117,26 @@ class Driver {
 		}
 
 		$historyTable = "CREATE TABLE IF NOT EXISTS history(
-			id INT unique,
+			id INT AUTO_INCREMENT unique,
 			user_id INT NOT NULL,
 			CONSTRAINT PK_history PRIMARY KEY CLUSTERED (id)
 		)";
 		/**
 		 * this portion and user table portion need to be work on 
 		 */
-		$oneToManyUserHistory = "ALTER TABLE history ADD CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ";
+		$oneToManyUserHistory = "ALTER TABLE history ADD CONSTRAINT FK_User_History FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ";
+		
+		if (mysqli_query($this->conn,$historyTable)) {
+			echo "<br>Creating table History is successfull";
+		} else {
+			echo "<br>Creating table history is failed.";
+		}
+
+		if (mysqli_query($this->conn, $oneToManyUserHistory)) {
+			echo "<br> One to Many between user and history table is successfull";
+		} else {
+			echo "<br> ONe to many betwen user and history table is failed ".mysqli_error($this->conn);
+		}
 	}
 
 	public function insertData($query) {
