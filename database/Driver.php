@@ -184,7 +184,11 @@ class Driver {
 		$historyTable = "CREATE TABLE IF NOT EXISTS history(
 			id INT AUTO_INCREMENT unique,
 			user_id INT NOT NULL,
-			CONSTRAINT PK_history PRIMARY KEY CLUSTERED (id)
+			CONSTRAINT PK_history PRIMARY KEY CLUSTERED (id),
+			ordered_ticket_id INT,
+			qty INT,
+			done BOOLEAN,
+			cancelled BOOLEAN
 		)";
 		/**
 		 * this portion and user table portion need to be work on 
@@ -231,6 +235,7 @@ class Driver {
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			destination varchar(244),
 			price INT,
+			quantity INT,
 			created_at TIMESTAMP
 		)";
 
@@ -243,7 +248,9 @@ class Driver {
 		$orderedTicketsTable = "CREATE TABLE IF NOT EXISTS ordered_tickets(
 			id INT AUTO_INCREMENT,
 			CONSTRAINT PK_ordered_tickets PRIMARY KEY CLUSTERED (id),
-			user_id INT
+			user_id INT,
+			ticket_id INT,
+			qty INT
 		)";
 
 		$orderedTicketsUserOneToMany = "ALTER TABLE ordered_tickets ADD CONSTRAINT FK_User_Ordered_Tickets FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ";
@@ -359,7 +366,7 @@ class Driver {
 	}
 
 	public function getTicketList() {
-		$sql = "SELECT destination, price from tickets";
+		$sql = "SELECT id,destination, price,quantity from tickets";
 		$result = mysqli_query($this->conn,$sql);
 		$arr = array();
 
@@ -372,6 +379,193 @@ class Driver {
 			}
 		} else {
 			echo "<br>ticket list is not found";
+		}
+
+		return $arr;
+	}
+
+	public function deleteTicketById($ticket_id) {
+		$sql = "DELETE FROM tickets where id='${ticket_id}'";
+
+		if (mysqli_query($this->conn,$sql)) {
+			echo "<br>A record from tickets table is deleted successfully";
+		} else {
+			echo "<br>A record from tickets table is deleted failed :".mysqli_error($this->conn);
+		}
+	}
+
+	public function getWallet($user_id) {
+		$sql = "SELECT * from wallet where user_id='${user_id}'";
+		$result = mysqli_query($this->conn,$sql);
+		if ($result) {
+			echo "<br>Wallet info found";
+			$result = mysqli_fetch_assoc($result);
+		} else {
+			echo "<br>Wallet info is not found ".mysqli_error($this->conn);
+		}
+
+		return $result["balance"];
+	}
+
+	public function getTicketById($ticket_id) {
+		// $sql = "SELECT * FROM tickets where id='${$ticket_id}'";
+		$sql = "SELECT id,destination, price,quantity from tickets where id='${ticket_id}'";
+
+		$result = mysqli_query($this->conn,$sql);
+
+		if ($result) {
+			echo "<br>The ticket record is found for the given ticket id";
+			$result = mysqli_fetch_assoc($result);
+		} else {
+			echo "<br>The ticket record is not found for the given ticket id ".mysqli_error($this->conn);
+		}
+
+		return $result;
+	}
+
+	public function getOrderedTicketById($ticket_id) {
+		// $sql = "SELECT * FROM tickets where id='${$ticket_id}'";
+		$sql = "SELECT * from ordered_tickets where ticket_id='${ticket_id}'";
+
+		$result = mysqli_query($this->conn,$sql);
+
+		if ($result) {
+			echo "<br>The ordered ticket record is found for the given ticket id";
+			$result = mysqli_fetch_assoc($result);
+		} else {
+			echo "<br>The ordered ticket record is not found for the given ticket id ".mysqli_error($this->conn);
+		}
+
+		return $result;
+	}
+
+	public function addTicketInfoToOrderTable($ticket_id,$user_id) {
+		echo " This is ticket id  : ".$ticket_id;
+		$searchForExistingTicket = "SELECT  * FROM ordered_tickets where user_id='${user_id}'";
+		$result = mysqli_query($this->conn, $searchForExistingTicket);
+
+		if ($result) {
+			if(mysqli_num_rows($result) > 0) {
+				$result = mysqli_fetch_assoc($result);
+				$prevQty = $result["qty"];
+				$qty = $prevQty + 1;
+				$updateTicket = "UPDATE ordered_tickets SET qty='${qty}' where user_id = '${user_id}'";
+				echo "gg";
+
+				$res = mysqli_query($this->conn,$updateTicket);
+
+				if ($res) {
+					echo "<br>Ordered Ticket table is updated successfully";
+				} else {
+					echo "<br>Updating ordered ticket table is failed ".mysqli_error($this->conn);
+				}
+			} else {
+					echo "<br>Ordered Ticket is not available in the orderd ticket table";
+					echo "<br>Creating new ordered_tickets ".mysqli_error($this->conn);
+					$this->insertData("INSERT INTO ordered_tickets (user_id,ticket_id,qty) VALUES('${user_id}','${ticket_id}','1')");
+			}
+
+
+		} else {
+			echo "Something went wrong ".mysqli_error($this->conn);
+		}
+
+		// if ($result) {
+		// 	echo "<br>Ordered Ticket is already available in the orderd ticket table";
+
+		// 		$result = mysqli_fetch_assoc($result);
+		// 		$prevQty = $result["qty"];
+		// 		$qty = $prevQty + 1;
+		// 		$updateTicket = "UPDATE ordered_tickets SET qty='${qty}' where ticket_id = '${ticket_id}'";
+		// 		echo "gg";
+
+		// 		$res = mysqli_query($this->conn,$updateTicket);
+
+		// 		if ($res) {
+		// 			echo "<br>Ordered Ticket table is updated successfully";
+		// 		} else {
+		// 			echo "<br>Updating ordered ticket table is failed ".mysqli_error($this->conn);
+		// 		}
+				
+
+			
+		// } else {
+		// 	echo "<br>Ordered Ticket is not available in the orderd ticket table";
+		// 	echo "<br>Creating new ordered_tickets ".mysqli_error($this->conn);
+		// 	$this->insertData("INSERT INTO ordered_tickets (user_id,ticket_id,qty) VALUES('${user_id}','${ticket_id}','1')");
+
+		// }
+
+	}
+
+	public function getOrderedTicketList($user_id) {
+		$sql = "SELECT * FROM ordered_tickets where user_id='${user_id}'";
+		$result = mysqli_query($this->conn,$sql);
+		$arr = array();
+
+		if ($result) {
+			echo "Fetching order ticket list sql command executed successfully";
+			if (mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_assoc($result)) {
+
+					$ticket_id = $row["ticket_id"];
+
+					$fetchTicketData = "SELECT * from tickets where id='${ticket_id}'";
+
+					$tickRes = mysqli_query($this->conn,$fetchTicketData);
+
+					if ($tickRes) {
+						echo "<br>Ticket data is fetched ";
+						$tickRes = mysqli_fetch_assoc($tickRes);
+						$tickRes["quantity"] =  $row["qty"];
+						array_push($arr,$tickRes);
+					} else {
+						echo "<br>Ticket data is not fetched ".mysqli_error($this->conn);
+
+					}
+				}
+			}
+		} else {
+			echo "Fetching order ticket list sql command execution failure ".mysqli_error($this->conn);
+		}
+
+		return $arr;
+	}
+
+	public function fetchOrderHistoryList($user_id) {
+		$sql = "SELECT * FROM history where user_id='${user_id}'";
+		$result = mysqli_query($this->conn,$sql);
+		$arr = array();
+
+		if ($result) {
+			echo "<br>history info for this user is available";
+			if (mysqli_num_rows($result) > 0) {
+				echo "<br>Fething data";
+				while($row = mysqli_fetch_assoc($result)) {
+					$ticket_id = $row["ordered_ticket_id"];
+					$getTicketInfo = "SELECT * FROM tickets where id='${ticket_id}'";
+					$ticketInfores = mysqli_query($this->conn,$getTicketInfo);
+					if ($ticketInfores) {
+						$ticketInfores = mysqli_fetch_assoc($ticketInfores);
+						$arr_temp = array("destination"=>$ticketInfores["destination"],
+							"price"=>$ticketInfores["price"],
+							"qty"=>$row["qty"],
+							"cancelled"=>$row["cancelled"],
+							"total"=>$row["qty"] * $ticketInfores["price"]
+						);
+						
+						print_r ($arr_temp);
+
+
+
+						array_push($arr,$arr_temp);
+					} else {
+						echo "<br> Error fetching ticket info ".mysqli_error($this->conn);
+					}
+				}
+			}
+		} else {
+			echo "<br>history info for this user is not available ".mysqli_error($this->conn);
 		}
 
 		return $arr;

@@ -50,7 +50,9 @@ class AuthController {
 				$user_id = $result["id"];
 				$_SESSION["role"] = $this->driver->getRoleByUserId($user_id);
 
-			 	header("Location: /air_reservation/getuser");
+			 	// header("Location: /air_reservation/getuser");
+		 		// exit();
+				header("Location: /air_reservation/orderhistory");
 		 		exit();
 			 } else {
 			 	echo "Username or password might be wrong";

@@ -1,9 +1,5 @@
-<?php include ("util/VariableBucket.php");use Util\VariableBucket ?>
 <link rel = "stylesheet" type = "text/css" href= "css/loggedinbody.css">
-<link rel = "stylesheet" type = "text/css" href= "css/navigate-tickets.css">
-<link rel = "stylesheet" type = "text/css" href= "css/adminbody.css">
-
-
+<?php include ("layout/header.php")?>
 
 
 <div class = "loggedinbody">
@@ -38,26 +34,32 @@
 		</div>
 
 	</div>
-	<div class ="navigate-ticket__right-side">
-		<!-- <img src = "https://flyclipart.com/thumb2/account-human-person-user-icon-137524.png" class = "loggedinbody__right-side__maintanance-image"> -->
+	<div class ="loggedinbody__right-side">
+		<!-- <img src = "image/maintanance.png" class = "loggedinbody__right-side__maintanance-image"> -->
 		<!-- <h1>This portion is under development</h1> -->
-        <br><a class = "adminbody__add-ticket-btn" href="addticket">Add new ticket</a><br>
-		<br><h1>Ticket list</h1><br>
-
-        <div class = "navigate-ticket__right-side__ticket-card-container">
-            
-            <?php foreach($_SESSION["ticketList"] as $item): ?>
-				<?php $ticket_id = $item["id"] ?>
-                <div class = "navigate-ticket__right-side__ticket-card-container__body"><span><?=$item["destination"] ?></span> <span>BDT <?=$item["price"] ?></span><span>QTY <?=$item["quantity"] ?></span><a href= "<?php echo 'deleteticket?id='.$ticket_id ?>" >Delete</a></div>
-            <?php endforeach;?>
-			
-	
-
-		</div>
-
-
 		
+
+		<br/><u><h1>My active tickets</h1></u><br/>
+
+		<div class = "loggedinbody__right-side__history-card-container">
+            <?php $orderedTickets = $_SESSION["orderedTicketList"]?>
+
+			<?php foreach($orderedTickets as $item):?>
+
+                <div class = "loggedinbody__right-side__history-card-container__card">
+				<div><span><?=$item["destination"] ?></span></div>
+				<div>QTY <span><?=$item["quantity"] ?></span></div>
+				<!-- <div>BDT <span><?=$item["price"] ?></span></div> -->
+                <a href = "<?php echo 'confirmorder?ticket_id='.$item["id"] ?>" >Done</a>
+                <a href = "<?php echo 'cancelorder?ticket_id='.$item["id"] ?>">Cancell</a>
+
+
+			</div>
+            <?php endforeach;?>
+		</div>
 
 	</div>
 
 </div>
+
+<?php include ("layout/footer.php")?>

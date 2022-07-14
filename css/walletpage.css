@@ -1,4 +1,22 @@
 .walletpage__right-side {
-    background-color: red;
     width : 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.walletpage__right-side__price-container {
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    border: 15px solid cyan;
+    padding : 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.walletpage__right-side__price-container span {
+    color : blue;
+    font-size: 2.5rem;
 }

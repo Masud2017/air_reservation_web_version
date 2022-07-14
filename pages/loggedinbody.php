@@ -40,21 +40,28 @@
 		<div class = "loggedinbody__right-side__card__container">
 			<a href = "navigateticket"><div name = "card" class = "loggedinbody__right-side__card__container__card">Navigate tickets</div></a>
 			<!-- <div name = "card" class = "loggedinbody__right-side__card__container__card">See schedule</div> -->
-			<a href = "orderedticket"><div name = "card" class = "loggedinbody__right-side__card__container__card">My ordered tickets</div></a>
-			<a href=  "mywallet"><div name = "card" class = "loggedinbody__right-side__card__container__card">My wallet</div></a>
+			<a href = "fetchorderedticket"><div name = "card" class = "loggedinbody__right-side__card__container__card">My ordered tickets</div></a>
+			<a href=  "fetchwalletinfo"><div name = "card" class = "loggedinbody__right-side__card__container__card">My wallet</div></a>
 		</div>
 
 		<br/><u><h1>Transaction history</h1></u><br/>
 
 		<div class = "loggedinbody__right-side__history-card-container">
-			<div class = "loggedinbody__right-side__history-card-container__card">
-				<div>History string</div>
-				<div>Date: <?php echo date("d:m:y-h:i:s") ?></div>
-				<div>BDT 5</div>
-				<div>Done/cancelled</div>
-				<div style = "background-color : white;border-radius: 50%; width : 30px; height : 30px;display : flex;justify-content:center;align-items:center;cursor:pointer">X</div>
+			<?php $history = $_SESSION["history"] ?>
+			<?php foreach($history as $item):?>
 
-			</div>
+				<div class = "loggedinbody__right-side__history-card-container__card">
+					<div><span><?=$item['destination'] ?></span></div>
+					<div><span>QTY <?=$item['qty'] ?> X <?=$item['price'] ?> BDT </span></div>
+					<?php if($item['cancelled']): ?>
+						<div><span>Cancelled</span></div>
+					<?php else: ?>
+						<div><span>Done</span></div>
+						
+					<?php endif; ?>
+					<div><span>BDT <?=$item['total'] ?></span></div>
+				</div>
+			<?php endforeach;?>
 		</div>
 
 	</div>

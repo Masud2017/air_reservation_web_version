@@ -29,7 +29,11 @@
 	</div>
 	<div class ="walletpage__right-side">
 		
-            
+            <div class =  "walletpage__right-side__price-container"><span>BDT <?php echo $_SESSION["balance"]?></span></div><br><br>
+			<form method = "GET" action = "/air_reservation/addmoney" style = "display: block">
+				<input type = "text" placeholder = "Enter the ammount you want to recharge" name = "money">
+				<input type = "submit" value = "recharge">
+			</form>
 	</div>
 
 </div>

@@ -41,7 +41,8 @@
         <div class = "navigate-ticket__right-side__ticket-card-container">
 			
 		<?php foreach($_SESSION["ticketList"] as $item): ?>
-                <div class = "navigate-ticket__right-side__ticket-card-container__body"><?=$item["destination"] ?></div>
+				<?php $ticket_id = $item["id"] ?>
+                <div class = "navigate-ticket__right-side__ticket-card-container__body"><span><?=$item["destination"]?></span> <span>BDT <?=$item["price"]?></span> <span>QTY <?=$item["quantity"]?></span> <a href= "<?php echo 'buyticket?id='.$ticket_id ?>" >Buy</a></div>
             <?php endforeach;?>
 
 
