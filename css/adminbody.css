@@ -1,0 +1,15 @@
+.adminbody__right-side {
+    width : 100%;
+}
+
+.adminbody__add-ticket-btn {
+    text-decoration: none;
+    display: inline-block;
+    color : white;
+    background-color: cyan;
+    padding : 5px 10px;
+    margin-left : 5px;
+    height : 1.5rem;
+    width: 7rem;
+    text-align: center;
+}

@@ -1,0 +1,31 @@
+.navigate-ticket__right-side {
+    width : 100%;
+}
+
+.navigate-ticket__right-side .navigate-ticket__right-side__ticket-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap : 10px;
+    margin-top : 10px;
+    overflow-y: auto;
+    height: 400px;
+    padding : 10px;
+}
+
+.navigate-ticket__right-side__ticket-card-container .navigate-ticket__right-side__ticket-card-container__body {
+    background-color: cyan;
+    width: 40%;
+    height: 2.7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    padding : 5px;
+    transition: transform .2s;
+}
+
+.navigate-ticket__right-side__ticket-card-container .navigate-ticket__right-side__ticket-card-container__body:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	transform: scale(105%);
+}

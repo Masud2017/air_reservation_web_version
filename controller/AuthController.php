@@ -1,6 +1,7 @@
 <?php
 namespace Controller;
 
+use Util\VariableBucket;
 
 class AuthController {
 	private $driver = null;
@@ -15,7 +16,6 @@ class AuthController {
 
 		$username = $_POST["email"];
 		$password = $_POST["password"];
-
 		echo $username;
 
 		$this->driver->connect();
@@ -47,8 +47,12 @@ class AuthController {
 
 				$_SESSION["image_url"] = $base64;
 
-			 	
-			 	header("Location: /air_reservation/getuser");
+				$user_id = $result["id"];
+				$_SESSION["role"] = $this->driver->getRoleByUserId($user_id);
+
+			 	// header("Location: /air_reservation/getuser");
+		 		// exit();
+				header("Location: /air_reservation/orderhistory");
 		 		exit();
 			 } else {
 			 	echo "Username or password might be wrong";
@@ -106,6 +110,13 @@ class AuthController {
 	}
 
 	
+	protected function getRoleId($role_name) {
+		$role_name = strtolower($role_name);
+
+		// $this->driver->insertData();
+		return $this->driver->getRoleIdByRoleName($role_name);		
+	}
+
 	public function registration() {
 		$fname = $_POST["fname"];
 		$lname = $_POST["lname"];
@@ -143,6 +154,14 @@ class AuthController {
 		$result2 = mysqli_fetch_assoc($result2);
 
 		$this->saveImageToDisk($image,$result2["id"]);
+		$id = $result2["id"];
+		$ammount = "1000";
+
+		$this->driver->insertData("INSERT INTO wallet(balance,user_id ) VALUES ('${ammount}','${id}')");
+
+		// now assigning role
+		$role_id = $this->getRoleId("user");
+		$this->driver->insertData("INSERT INTO user_role(user_id,role_id) VALUES ('${id}','${role_id}')");
 				
 		}
 
