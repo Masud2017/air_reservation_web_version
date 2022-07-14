@@ -27,7 +27,7 @@
 
 		</div>
 		<?php else:?>
-			<?php $image = $_SESSION["image_url"]; ?>
+			
 		<div name = "header" class = "nav-bar">
 			<a href = "/air_reservation/"><img src = "https://flyclipart.com/thumb2/account-human-person-user-icon-137524.png" alt ="somthing went wrong" class = "nav-bar__nav-image"/></a>
 			<div class = "nav-bar__nav-item">
