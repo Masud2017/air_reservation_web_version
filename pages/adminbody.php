@@ -8,7 +8,8 @@
 
 <div class = "loggedinbody">
 	<div class = "loggedinbody__left-side">
-		<img src = "<?=$_SESSION["image_url"]?>" class = "loggedinbody__left-side__profile-image"/><br>
+		<!-- <img src = "" class = "loggedinbody__right-side__maintanance-image"> -->
+		<img src = "https://flyclipart.com/thumb2/account-human-person-user-icon-137524.png" class = "loggedinbody__left-side__profile-image"/><br>
 
 		<div>
 		<!-- <h3 style ="display: inline">Name : </h3>	 -->
